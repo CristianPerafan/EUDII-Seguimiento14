@@ -132,6 +132,9 @@ public class Main extends Application {
 		
 	}
 	
+	public void showZoneId() {
+		
+	}
 	public static void main(String[] args) {
 		launch(args);
 	}

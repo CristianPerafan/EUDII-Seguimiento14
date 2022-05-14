@@ -116,10 +116,8 @@ public class ChronometerViewController implements Initializable {
 		
 		restoreButton.setVisible(false);
 		
-		threadForMinutes();
-		threadForSeconds();
-		threadForThousandths();
-
+		toStartChronometer();
+	
 	}
 	
 	private void threadForTable() {
@@ -135,92 +133,55 @@ public class ChronometerViewController implements Initializable {
 		}).start();
 	}
 	
-	private void threadForThousandths() {
-		new Thread(()->{
-			
-				while(!stop) {
-				
-					try {
-						Thread.sleep(1);
+
+	
+	private void toStartChronometer() {
+		new Thread() {
+			public void run() {
+				for(;;) {
+					if(!stop) {
+						try {
+							
+							sleep(1);
+							
+							if(thousandths == 1000) {
+								resethousandths();
+								addASecond();
+							}
+							
+							if(seconds == 60) {
+								resethousandths();
+								resetSeconds();
+								addAMinute();
+							}
+							
+							
+							Platform.runLater(() ->{
+								minutesLabel.setText(String.valueOf(minutes));
+								secondsLabel.setText(String.valueOf(seconds));
+								thousandthsLabel.setText(String.valueOf(thousandths));
+							});
+							
+							
+							
+							
+							addAThousandth();
+							
 						
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+						}catch(Exception e) {
+							e.printStackTrace();
+						}
 					}
-					
-					if(thousandths == 100) {
-						resethousandths();
+					else {
+						break;
 					}
-					
-					
-					addAThousandth();
-					
-					
-					Platform.runLater(() ->{
-						thousandthsLabel.setText(String.valueOf(thousandths));
-						
-					});
-					
 				}
-		}).start();
-	}
-	
-	//Segundo -> 1000
-	//Minuto -> 60000
-	
-	private void threadForSeconds() {
-		new Thread(()->{
-			
-			while(!stop) {
-				
-				try {
-					Thread.sleep(1000);
-					
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				if(seconds == 60) {
-					resetSeconds();
-				}
-				
-				addASecond();
-				
-				Platform.runLater(() ->{
-					secondsLabel.setText(String.valueOf(seconds));
-					
-				});
-				
-				
-				
 			}
-			
-		}).start();
+		}.start();
 	}
 	
 	
-	private void threadForMinutes() {
-		new Thread(()->{
-			
-			while(!stop) {
-				
-				try {
-					Thread.sleep(60_000);
-					
-				}catch(InterruptedException e) {
-					e.printStackTrace();
-				}
-				
-				addAMinute();
-				
-				Platform.runLater(() ->{
-					minutesLabel.setText(String.valueOf(minutes));
-				});
-			}
-			
-			
-			
-		}).start();;
-	}
+	
 	
 	@FXML
 	void toStop(ActionEvent e) {
@@ -243,6 +204,8 @@ public class ChronometerViewController implements Initializable {
 		minutesLabel.setText(String.valueOf(minutes));
 		secondsLabel.setText(String.valueOf(seconds));
 		thousandthsLabel.setText(String.valueOf(thousandths));
+		
+		identifier = 1;
 		
 		
 	}
@@ -267,7 +230,7 @@ public class ChronometerViewController implements Initializable {
 		if(condition == true) {
 		
 			if(identifier == 1) {
-				System.out.println("Entro first");
+				
 				Lap l = new Lap(identifier,minutes,seconds,thousandths,minutes,
 						seconds,thousandths);
 				
@@ -275,33 +238,82 @@ public class ChronometerViewController implements Initializable {
 			}
 			else {
 				int lapTimeMLast = aux.get(aux.size()-1).getOverallTimeMinutes();
-				System.out.println(lapTimeMLast);
 				int lapTimeSLast = aux.get(aux.size()-1).getOverallTimeSeconds();
-				System.out.println(lapTimeSLast);
 				int lapTimeMSLast = aux.get(aux.size()-1).getOverallTimeMiliseconds();
-				System.out.println("ls-->ms: "+lapTimeMSLast);
-				System.out.println("thousandths: "+thousandths);
-				
+
+			
 				int timeMS = 0;
+				int timeS = 0;
+				int timeM = 0;
+				
 				if(lapTimeMSLast<thousandths) {
-					System.out.println("Entro menor");
+				
 					timeMS = lapTimeMSLast-thousandths;
-					System.out.println("Resta: "+timeMS);
-					int aux = timeMS;
-					timeMS = aux+(aux*2);
+
+				
+					timeMS = timeMS*(-1);;
+					
 					
 				}
 				else if(lapTimeMSLast>thousandths) {
-					timeMS = 100-thousandths;
-					System.out.println("Entro mayor");
-					timeMS = timeMS+lapTimeMSLast;
+					timeMS = 1000-lapTimeMSLast;
+				
+					timeMS = timeMS+thousandths;
+			
+				}
+				
+				
+				
+				if(minutes>lapTimeMLast) {
+				
+					if(minutes-lapTimeMLast == 1) {
+				
+						if(seconds>lapTimeSLast) {
+			
+							timeM = minutes-lapTimeMLast;
+							timeS = seconds-lapTimeSLast;
+						}
+						else if(seconds<lapTimeSLast) {
+						
+							
+							timeM = 0;
+							timeS = 60-(lapTimeSLast-seconds);
+							
+						}
+						else {
+						
+							timeM = 1;
+							timeS = 0;
+						}
+					}
+					else {
+						if(seconds>lapTimeSLast) {
+					
+							timeM = minutes-lapTimeMLast;
+							timeS = seconds-lapTimeSLast;
+						}
+						else {
+						
+							timeM = minutes-1;
+							timeS = 60- (lapTimeSLast-seconds);
+						}
+					}
+					
+				
+				}
+				else{
+					
+					timeS = seconds-lapTimeSLast;
+					
+					
 				}
 				
 				
 				
 				
-				Lap l = new Lap(identifier,minutes,seconds,thousandths,minutes-lapTimeMLast,
-						seconds-lapTimeSLast,timeMS);
+				
+				Lap l = new Lap(identifier,minutes,seconds,thousandths,timeM,
+						timeS,timeMS);
 				
 				aux.add(l);
 			}
