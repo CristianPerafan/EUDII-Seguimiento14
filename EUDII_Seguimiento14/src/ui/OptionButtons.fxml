@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.OptionButtonsController">
+   <left>
+      <AnchorPane prefHeight="500.0" prefWidth="250.0" style="-fx-background-color: #333232;" BorderPane.alignment="CENTER">
+         <children>
+            <VBox prefHeight="500.0" prefWidth="250.0">
+               <children>
+                  <AnchorPane prefHeight="100.0" prefWidth="250.0">
+                     <children>
+                        <ImageView fitHeight="56.0" fitWidth="170.0" layoutX="40.0" layoutY="26.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../media/logoeudiib.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                  </AnchorPane>
+                  <Button fx:id="homeButton" alignment="BASELINE_LEFT" layoutX="10.0" layoutY="110.0" mnemonicParsing="false" onAction="#showHome" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: TRANSPARENT;" text="Home" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="clockButton" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#showWatch" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: TRANSPARENT;" text="Clock" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font></Button>
+                  <Button fx:id="chronometerButton" alignment="BOTTOM_LEFT" layoutX="10.0" layoutY="10.0" mnemonicParsing="false" onAction="#showChronometer" prefHeight="40.0" prefWidth="250.0" style="-fx-background-color: TRANSPARENT;" text="Chronometer" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font></Button>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </left>
+   <right>
+      <AnchorPane prefHeight="500.0" prefWidth="450.0" style="-fx-background-color: #212121;" BorderPane.alignment="CENTER">
+         <children>
+            <ImageView fitHeight="251.0" fitWidth="268.0" layoutX="100.0" layoutY="125.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../media/globe.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="65.0" fitWidth="61.0" layoutX="375.0" layoutY="421.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../media/Col.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="timeNowLabel" layoutX="203.0" layoutY="408.0" text="9:40:30" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="dateNowLabel" layoutX="203.0" layoutY="461.0" text="10/05/2022" textFill="WHITE">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children></AnchorPane>
+   </right>
+</BorderPane>
