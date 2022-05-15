@@ -2,7 +2,6 @@ package controller;
 
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 import application.Main;
@@ -58,7 +57,6 @@ public class ChronometerViewController implements Initializable {
 	@FXML
 	private TableColumn<Lap,String> overallTimeLap;
 	
-	@SuppressWarnings("unused")
 	private ObservableList<Lap> aux;
 	 
 	 

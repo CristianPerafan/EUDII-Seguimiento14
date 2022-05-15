@@ -55,12 +55,12 @@
                   <Image url="@../media/Col.png" />
                </image>
             </ImageView>
-            <Label fx:id="timeNowLabel" layoutX="203.0" layoutY="408.0" text="9:40:30" textFill="WHITE">
+            <Label fx:id="timeNowLabel" layoutX="203.0" layoutY="408.0" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="36.0" />
                </font>
             </Label>
-            <Label fx:id="dateNowLabel" layoutX="203.0" layoutY="461.0" text="10/05/2022" textFill="WHITE">
+            <Label fx:id="dateNowLabel" layoutX="203.0" layoutY="461.0" textFill="WHITE">
                <font>
                   <Font size="18.0" />
                </font>

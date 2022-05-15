@@ -2,11 +2,15 @@ package application;
 	
 import java.io.IOException;
 
+import controller.AddAZoneView;
 import controller.ChronometerViewController;
 import controller.ClockViewController;
 import controller.OptionButtonsController;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
 import javafx.stage.Stage;
+import model.Controller;
+import model.Zone;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.fxml.FXMLLoader;
@@ -16,11 +20,12 @@ public class Main extends Application {
 	
 	//Attributes
 	private Stage currentStage;
+	private Controller controller;
 	
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			
+			controller = new Controller();
 			showInitialView();
 			
 		} catch(Exception e) {
@@ -94,6 +99,36 @@ public class Main extends Application {
 		}
 	}
 	
+	public void showAddAZone() {
+		
+		
+		try {
+			
+			FXMLLoader loader_AC = new FXMLLoader(getClass().getResource("../ui/AddAZoneView.fxml"));
+			
+			BorderPane root_AC = (BorderPane)loader_AC.load();
+			
+			AddAZoneView controller_AC = loader_AC.getController();
+			
+			controller_AC.setMain(this);
+			
+			Scene scene = new Scene(root_AC);
+			Stage stage = new Stage();
+			
+			stage.setScene(scene);
+			
+			currentStage = stage;
+			
+			stage.show();
+			 
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	
 	public void showClock() {
 		
 		if(currentStage != null) {currentStage.close();}
@@ -127,14 +162,21 @@ public class Main extends Application {
 			e.printStackTrace();
 		}
 		
-		
-		
-		
 	}
 	
-	public void showZoneId() {
-		
+	public void closeCurrent() {
+		currentStage.close();
 	}
+	
+	public void addAZoneMain(String zoneId) {
+		controller.addAZoneController(zoneId);
+	}
+	
+	public ObservableList<Zone> returnZonesMain(){
+		return controller.returnZones();
+	}
+	
+	
 	public static void main(String[] args) {
 		launch(args);
 	}
